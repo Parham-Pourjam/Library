@@ -1,11 +1,13 @@
 body {
     text-align: center;
+    background-image: url(images/background.png);
+    background-size: 100%;
 }
 
 .card-container {
     display: flex;
-    height: 600px;
-    border: 3px solid green; 
+    height: 450px;
+    
     margin-top: 10%;
     flex-wrap: wrap;
     overflow: auto;
@@ -18,11 +20,27 @@ body {
     width: 180px;
     border: solid;
     text-align: center;
-    background-color: aqua;
+    background-color: #8a6b28;
 }
 
 #show-form {
     margin-bottom: 10px;
+    margin-top: 5px;
+    background-color: skyblue;
+    font-size: medium;
+}
+
+.read-button {
+    width: 20px;
+    height: 20px;
+    background-image: url(images/eye.png);
+    background-size: 100%;
+    background-color: red;
+    border: none;
+    position: absolute; 
+    top: 0; 
+    justify-content: center;
+    left: 0;
 }
 
 .form-element {
@@ -35,6 +53,7 @@ body {
     border: solid;
     width: 200px;
     display: inline-block;
+    background-color: seashell;
 }
 
 
@@ -51,4 +70,7 @@ body {
 #submit {
     margin-top: 10px;
     margin-bottom: 10px;
+    background-color: #a87636;
+    font-size: medium;
+    color: black;
 }

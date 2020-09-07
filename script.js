@@ -40,31 +40,66 @@ function cardCreator() {
       const titleComponent = document.createElement('h3');
       const authorComponent = document.createElement('h5');
       const pagesComponent = document.createElement('h6');
+      const readStatus = document.createElement('h6');
 
       titleComponent.textContent = myLibrary[i].title; 
       authorComponent.textContent = `By: ${myLibrary[i].author}`;
       pagesComponent.textContent = myLibrary[i].pages + " pages";
+      readStatus.textContent = myLibrary[i].read;
 
       card.appendChild(titleComponent);
       card.appendChild(authorComponent);
       card.appendChild(pagesComponent);
+      card.appendChild(readStatus);
 
       // give each card a data attribute representing the index to help with removal of cards
       card.setAttribute('data-index', i);
 
+      // create removal button and append to card
       const removalButton = document.createElement('button');
       removalButton.classList.add('removal');
       card.appendChild(removalButton);
 
+      // create button representing read status
+      const readButtonElement = document.createElement('button');
+      readButtonElement.classList.add('read-button');
+      card.appendChild(readButtonElement);
+
+
       cardContainer.appendChild(card);
 
-
-
-      const remove = document.querySelectorAll('.removal');
-      remove.forEach(button => {
-        button.addEventListener('click', removeCard);
-      });
+      removeButtonEventListener();
+      readButtonEventListener();
     }
+}
+
+// attach event listener to all remove buttons
+function removeButtonEventListener() {
+  const remove = document.querySelectorAll('.removal');
+    remove.forEach(button => {
+      button.addEventListener('click', removeCard);
+    });
+}
+
+// attach event listener to all read button
+function readButtonEventListener() {
+  const readButtons = document.querySelectorAll('.read-button');
+    readButtons.forEach(button => {
+      button.addEventListener('click', changeReadStatus);
+    });
+}
+
+
+function changeReadStatus() {
+  //console.log('ye');
+  const index = this.parentNode.dataset.index;
+  if (myLibrary[index].read) {
+    myLibrary[index].read = false;
+  } else {
+    myLibrary[index].read = true;
+  }
+  
+  cardCreator();
 }
 
 function addBook() {
@@ -73,7 +108,8 @@ function addBook() {
   title = document.getElementById('title').value;
   author = document.getElementById('author').value;
   pages = document.getElementById('pages').value;
-  addBookToLibrary(title, author, pages, true);
+  read = document.getElementById('read').value;
+  addBookToLibrary(title, author, pages, read);
   
   cardCreator();
   
@@ -82,13 +118,14 @@ function addBook() {
   clearFormElements();
 
   // update sessionStorage to reflect added books
-  sessionStorage.setItem("library", JSON.stringify(myLibrary));
+  setSessionStorage();
 }
 
 function clearFormElements() {
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
   document.getElementById('pages').value = "";
+  document.getElementById('read').value = "";
 }
 
 // show form after 'add book' button is pressed
@@ -111,18 +148,15 @@ function removeCard() {
   const index = this.parentNode.dataset.index;
   myLibrary.splice(index, 1);
   // update session storage to reflect removed cards
-  sessionStorage.setItem("library", JSON.stringify(myLibrary));
+  setSessionStorage();
   cardCreator();
 }
 
-const form = document.querySelector('#show-form');
-form.addEventListener('click', showForm);
+function setSessionStorage() {
+  sessionStorage.setItem("library", JSON.stringify(myLibrary));
+}
 
-
-const submit = document.querySelector('#submit');
-submit.addEventListener('click', addBook);
-
-// use sessionStorage to 
+// use sessionStorage to save library on reload
 function onPageLoad() {
   if(sessionStorage.getItem('library')) {
     myLibrary = JSON.parse(sessionStorage.getItem('library'));
@@ -132,5 +166,12 @@ function onPageLoad() {
     addBookToLibrary("The Lord of the Rings", "J.R. Tolkien", "1523", true);
   }
 }
+
+const form = document.querySelector('#show-form');
+form.addEventListener('click', showForm);
+
+const submit = document.querySelector('#submit');
+submit.addEventListener('click', addBook);
+
 
 onPageLoad();
