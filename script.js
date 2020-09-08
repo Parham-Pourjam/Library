@@ -1,10 +1,8 @@
 let myLibrary = [];
 
-
 const cardContainer = document.querySelector('.card-container');
 
 function Book(title, author, pages, read) {
-  // the constructor...
     this.title = title;
     this.author = author;
     this.pages = pages;
@@ -17,17 +15,12 @@ Book.prototype.info = function() {
 }
 
 function addBookToLibrary(title, author, pages, read) {
-  // do stuff here
     const book = new Book(title, author, pages, read);
     myLibrary.push(book);
     return book;
 }
 
 addBookToLibrary("Bleach", "Tite Kubo", 200, true);
-//addBookToLibrary("Naruto", "Ichigo", 300, false);
-
-//myLibrary[0].read = true;
-//console.log(myLibrary[0].info());
 
 function cardCreator() {
     while (cardContainer.firstChild) {
@@ -37,25 +30,25 @@ function cardCreator() {
     for (let i = 0; i < myLibrary.length; i++) {
       const card = document.createElement('div');
       card.className = "card";
-      const titleComponent = document.createElement('h3');
+      const titleComponent = document.createElement('h4');
       const authorComponent = document.createElement('h5');
       const pagesComponent = document.createElement('h6');
-      const readStatus = document.createElement('h6');
+      const readComponent = document.createElement('h5');
 
       titleComponent.textContent = myLibrary[i].title; 
       authorComponent.textContent = `By: ${myLibrary[i].author}`;
       pagesComponent.textContent = myLibrary[i].pages + " pages";
-      readStatus.textContent = myLibrary[i].read;
+      readComponent.textContent = readStatus(myLibrary[i].read);
 
       card.appendChild(titleComponent);
       card.appendChild(authorComponent);
+      card.appendChild(readComponent);
       card.appendChild(pagesComponent);
-      card.appendChild(readStatus);
 
       // give each card a data attribute representing the index to help with removal of cards
       card.setAttribute('data-index', i);
 
-      // create removal button and append to card
+      // create removal button
       const removalButton = document.createElement('button');
       removalButton.classList.add('removal');
       card.appendChild(removalButton);
@@ -71,6 +64,15 @@ function cardCreator() {
       removeButtonEventListener();
       readButtonEventListener();
     }
+}
+
+// changes read status symbol after button click
+function readStatus(CurrentReadStatus) {
+  if (CurrentReadStatus) {
+    return "Read Status: 🗸";
+  } else {
+    return "Read Status: ⨂";
+  }
 }
 
 // attach event listener to all remove buttons
@@ -89,7 +91,7 @@ function readButtonEventListener() {
     });
 }
 
-
+// changes status of read property in array 
 function changeReadStatus() {
   //console.log('ye');
   const index = this.parentNode.dataset.index;
@@ -103,12 +105,10 @@ function changeReadStatus() {
 }
 
 function addBook() {
-  // display form
-  
-  title = document.getElementById('title').value;
-  author = document.getElementById('author').value;
-  pages = document.getElementById('pages').value;
-  read = document.getElementById('read').value;
+  let title = document.getElementById('title').value;
+  let author = document.getElementById('author').value;
+  let pages = document.getElementById('pages').value;
+  let read = readFormChoice();
   addBookToLibrary(title, author, pages, read);
   
   cardCreator();
@@ -125,8 +125,28 @@ function clearFormElements() {
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
   document.getElementById('pages').value = "";
-  document.getElementById('read').value = "";
+  //document.getElementById('read').value = "";
 }
+
+// obtain reading status of book from forms radio buttons
+function readFormChoice() {
+  let selectedValue;
+
+  const choices = document.querySelectorAll('input[name="read"]');
+
+  for (const choice of choices) {
+    if (choice.checked) {
+      selectedValue = choice.value;
+      break;
+    }
+  }
+
+  if (selectedValue === "true") {
+    return true;
+  } else {
+    return false;
+  }
+} 
 
 // show form after 'add book' button is pressed
 function showForm() {
@@ -172,6 +192,5 @@ form.addEventListener('click', showForm);
 
 const submit = document.querySelector('#submit');
 submit.addEventListener('click', addBook);
-
 
 onPageLoad();

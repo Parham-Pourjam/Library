@@ -12,13 +12,16 @@
             <div>
                 <form class="form-element">
                     <label for="title">Title:</label><br>
-                    <input type="text" id="title" name="title" required><br>
+                    <input type="text" id="title" name="title"><br>
                     <label for="author">Author:</label><br>
-                    <input type="text" id="author" name="author" required><br>
+                    <input type="text" id="author" name="author"><br>
                     <label for="pages">Pages:</label><br>
-                    <input type="text" id="pages" name="pages" required><br>
-                    <label for="read">Read?:</label><br>
-                    <input type="text" id="read" name="read" required><br>
+                    <input type="number" id="pages" name="pages" min="1"><br>
+                    <label for="read">Finished reading?</label><br>
+                    <input type="radio" id="yes-read" name="read" value="true">
+                    <label for="yes-read">Yes</label><br>
+                    <input type="radio" id="no-read" name="read" value="false">
+                    <label for="no-read">No</label><br>
                     <input type="button" value="Submit" id="submit">
                 </form>
             </div>
