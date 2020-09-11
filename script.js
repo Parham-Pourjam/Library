@@ -118,6 +118,14 @@ function addBook() {
   setSessionStorage();
 }
 
+function removeCard() {
+  const index = this.parentNode.dataset.index;
+  myLibrary.splice(index, 1);
+  // update session storage to reflect removed cards
+  setSessionStorage();
+  cardCreator();
+}
+
 function clearFormElements() {
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
@@ -158,22 +166,14 @@ function hideForm() {
   form.classList.remove('new-form');
 }
 
-function removeCard() {
-  const index = this.parentNode.dataset.index;
-  myLibrary.splice(index, 1);
-  // update session storage to reflect removed cards
-  setSessionStorage();
-  cardCreator();
-}
-
 function setSessionStorage() {
   sessionStorage.setItem("library", JSON.stringify(myLibrary));
 }
 
 // use sessionStorage to save library on reload
 function onPageLoad() {
-  addBookToLibrary("The Lord of the Rings", "J.R. Tolkien", "1523", true);
-  addBookToLibrary("Bleach", "Tite Kubo", 200, true);
+  addBookToLibrary("The Lord of the Rings", "J.R. Tolkien", "1523", false);
+  addBookToLibrary("Bleach Vol. 1", "Tite Kubo", 200, true);
   cardCreator();
   if(sessionStorage.getItem('library')) {
     myLibrary = JSON.parse(sessionStorage.getItem('library'));
