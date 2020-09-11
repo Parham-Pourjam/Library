@@ -20,8 +20,6 @@ function addBookToLibrary(title, author, pages, read) {
     return book;
 }
 
-addBookToLibrary("Bleach", "Tite Kubo", 200, true);
-
 function cardCreator() {
     while (cardContainer.firstChild) {
       cardContainer.removeChild(cardContainer.lastChild);
@@ -93,7 +91,6 @@ function readButtonEventListener() {
 
 // changes status of read property in array 
 function changeReadStatus() {
-  //console.log('ye');
   const index = this.parentNode.dataset.index;
   if (myLibrary[index].read) {
     myLibrary[index].read = false;
@@ -125,7 +122,6 @@ function clearFormElements() {
   document.getElementById('title').value = "";
   document.getElementById('author').value = "";
   document.getElementById('pages').value = "";
-  //document.getElementById('read').value = "";
 }
 
 // obtain reading status of book from forms radio buttons
@@ -150,11 +146,9 @@ function readFormChoice() {
 
 // show form after 'add book' button is pressed
 function showForm() {
-  //document.querySelector('#form-element').style.display = 'block';
   let form = document.querySelector('.form-element');
   form.classList.add('new-form');
   form.classList.remove('form-element');
-  //document.querySelector('card-container').setAttribute('style', 'display: none');
 }
 
 // hide form after book has been added
@@ -178,13 +172,13 @@ function setSessionStorage() {
 
 // use sessionStorage to save library on reload
 function onPageLoad() {
+  addBookToLibrary("The Lord of the Rings", "J.R. Tolkien", "1523", true);
+  addBookToLibrary("Bleach", "Tite Kubo", 200, true);
+  cardCreator();
   if(sessionStorage.getItem('library')) {
     myLibrary = JSON.parse(sessionStorage.getItem('library'));
     cardCreator();
   } 
-  else {
-    addBookToLibrary("The Lord of the Rings", "J.R. Tolkien", "1523", true);
-  }
 }
 
 const form = document.querySelector('#show-form');
